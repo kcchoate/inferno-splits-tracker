@@ -21,6 +21,9 @@ dependencies {
 	testImplementation 'junit:junit:4.12'
 	testImplementation group: 'net.runelite', name:'client', version: runeLiteVersion
 	testImplementation group: 'net.runelite', name:'jshell', version: runeLiteVersion
+	testImplementation 'com.google.inject.extensions:guice-testlib:4.1.0'
+	testImplementation 'org.mockito:mockito-all:1.10.19'
+	testImplementation 'org.slf4j:slf4j-simple:1.7.12'
 }
 
 group = 'ken.inferno.splits.tracker'
