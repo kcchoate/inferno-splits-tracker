@@ -16,9 +16,6 @@ public final class MessageProcessorCollection {
     {
         try {
             final MessageType messageType = state.processMessage(message);
-            log.trace("messageType: {}", messageType);
-            log.info("messageType: {}", messageType);
-
             switch (messageType) {
                 case FirstWave:
                     handleFirstWaveMessage(message);
