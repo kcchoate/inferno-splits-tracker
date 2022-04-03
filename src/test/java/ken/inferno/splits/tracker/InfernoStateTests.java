@@ -52,6 +52,20 @@ public class InfernoStateTests {
     }
 
     @Test
+    public void GivenDoubleWaveSplitMessages_OnlyProducesOneSplit()
+    {
+        sendStart();
+        sendWave(2);
+        sendSplit("01:01");
+        sendSplit("1:01");
+        sendWaves(3, 4);
+        sendSplit("02:02.10");
+        sendSuccessfulKill(231, "10:01");
+
+        assertEquals("Wave,Split\n2,01:01\n4,02:02.10\nend,10:01\n", sut.getSplitsCsv());
+    }
+
+    @Test
     public void GivenPlayerDiesAfterWaveSplit_CalculatesSplitsCorrectly()
     {
         sendStart();
@@ -62,6 +76,30 @@ public class InfernoStateTests {
         sendDefeated("10:01");
 
         assertEquals("Wave,Split\n2,01:01\n4,02:02\nend,10:01\n", sut.getSplitsCsv());
+    }
+
+    @Test
+    public void GivenWave45Death_CalculatesSplitsCorrectly()
+    {
+        sendStart();
+        sendWaves(2,9);
+        sendSplit("02:41");
+        sendSplit("02:40");
+        sendWaves(10, 18);
+        sendSplit("07:04");
+        sendSplit("7:04");
+        sendWaves(19, 25);
+        sendSplit("11:26");
+        sendSplit("11:25");
+        sendWaves(26, 35);
+        sendSplit("17:51");
+        sendSplit("17:50");
+        sendWaves(36, 42);
+        sendSplit("23:18");
+        sendSplit("23:18");
+        sendWaves(43, 45);
+        sendDefeated("25:41");
+        assertEquals("Wave,Split\n9,02:41\n18,07:04\n25,11:26\n35,17:51\n42,23:18\nend,25:41\n", sut.getSplitsCsv());
     }
 
     private void sendStart() {

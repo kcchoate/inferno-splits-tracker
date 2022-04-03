@@ -2,9 +2,7 @@ package ken.inferno.splits.tracker;
 
 import net.runelite.api.events.ChatMessage;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,13 +18,13 @@ public class InfernoState {
     private int killCount;
     private String duration;
     private String personalBest;
-    Map<Integer, String> waveSplits = new HashMap<>();
+    SortedMap<Integer, String> waveSplits = new TreeMap<>();
 
     public int getCurrentWave() {
         return currentWave;
     }
 
-    public void setCurrentWave(int newValue) {
+    private void setCurrentWave(int newValue) {
         currentWave = newValue;
     }
 
@@ -34,7 +32,7 @@ public class InfernoState {
         return killCount;
     }
 
-    public void setKillCount(int newValue) {
+    private void setKillCount(int newValue) {
         killCount = newValue;
     }
 
@@ -42,7 +40,7 @@ public class InfernoState {
         return duration;
     }
 
-    public void setDuration(String newValue) {
+    private void setDuration(String newValue) {
         duration = newValue;
     }
 
@@ -50,7 +48,7 @@ public class InfernoState {
         return personalBest;
     }
 
-    public void setPersonalBest(String newValue) {
+    private void setPersonalBest(String newValue) {
         personalBest = newValue;
     }
 
@@ -59,10 +57,10 @@ public class InfernoState {
         sb.append("Wave,Split");
         sb.append('\n');
 
-        for (Map.Entry<Integer, String> split : waveSplits.entrySet()) {
-            sb.append(split.getKey());
+        for (Integer waveNumber : waveSplits.keySet()) {
+            sb.append(waveNumber);
             sb.append(',');
-            sb.append(split.getValue());
+            sb.append(waveSplits.get(waveNumber));
             sb.append('\n');
         }
 
@@ -73,8 +71,10 @@ public class InfernoState {
         return sb.toString();
     }
 
-    public void addSplit(String split) {
-        waveSplits.put(currentWave, split);
+    private void addSplit(String split) {
+        if (!waveSplits.containsKey(currentWave)) {
+            waveSplits.put(currentWave, split);
+        }
     }
 
     public MessageType processMessage(ChatMessage message) {
