@@ -9,11 +9,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InfernoState {
+    private static final String splitPattern = "\\d+:\\d+(\\.\\d{1,2})?";
     private final Pattern wavePattern = Pattern.compile("(?<=wave: )\\d+", Pattern.CASE_INSENSITIVE);
     private final Pattern killCountPattern = Pattern.compile("(?<=your tzkal-zuk kill count is: )\\d+", Pattern.CASE_INSENSITIVE);
-    private final Pattern waveSplitPattern = Pattern.compile("(?<=wave split: )\\d+:\\d+", Pattern.CASE_INSENSITIVE);
-    private final Pattern durationPattern = Pattern.compile("(?<=duration: )\\d+:\\d+", Pattern.CASE_INSENSITIVE);
-    private final Pattern pbPattern = Pattern.compile("(?<=personal best: )\\d+:\\d+", Pattern.CASE_INSENSITIVE);
+    private final Pattern waveSplitPattern = Pattern.compile("(?<=wave split: )" + splitPattern, Pattern.CASE_INSENSITIVE);
+    private final Pattern durationPattern = Pattern.compile("(?<=duration: )" + splitPattern, Pattern.CASE_INSENSITIVE);
+    private final Pattern pbPattern = Pattern.compile("(?<=personal best: )" + splitPattern, Pattern.CASE_INSENSITIVE);
 
     private int currentWave;
     private int killCount;

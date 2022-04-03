@@ -26,6 +26,32 @@ public class InfernoStateTests {
     }
 
     @Test
+    public void GivenOneDecimalInDuration_ProducesDecimalCorrectly()
+    {
+        sendStart();
+        sendWave(2);
+        sendSplit("01:01");
+        sendWaves(3, 4);
+        sendSplit("02:02.1");
+        sendSuccessfulKill(231, "10:01");
+
+        assertEquals("Wave,Split\n2,01:01\n4,02:02.1\nend,10:01\n", sut.getSplitsCsv());
+    }
+
+    @Test
+    public void GivenTwoDecimalsInDuration_ProducesDecimalCorrectly()
+    {
+        sendStart();
+        sendWave(2);
+        sendSplit("01:01");
+        sendWaves(3, 4);
+        sendSplit("02:02.10");
+        sendSuccessfulKill(231, "10:01");
+
+        assertEquals("Wave,Split\n2,01:01\n4,02:02.10\nend,10:01\n", sut.getSplitsCsv());
+    }
+
+    @Test
     public void GivenPlayerDiesAfterWaveSplit_CalculatesSplitsCorrectly()
     {
         sendStart();
